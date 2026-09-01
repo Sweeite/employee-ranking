@@ -47,5 +47,6 @@ Then `npm run dev` and visit `http://localhost:3000`.
 
 - `GET /api/employees` — leaderboard, sorted by score
 - `POST /api/employees` — `{ name, title? }`
+- `DELETE /api/employees/:id` — removes the employee and their vote history
 - `POST /api/employees/:id/vote` — `{ delta: 1 | -1, reaction, reason }`
 - `GET /api/log` — most recent 50 votes with reasons

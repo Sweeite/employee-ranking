@@ -20,6 +20,20 @@ export default function Leaderboard({
   onChanged: () => void;
 }) {
   const [voteTarget, setVoteTarget] = useState<{ employee: Employee; delta: 1 | -1 } | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  async function handleDelete(emp: Employee) {
+    if (!confirm(`Remove ${emp.name} from the leaderboard? This deletes their entire vote history.`)) {
+      return;
+    }
+    setDeletingId(emp.id);
+    try {
+      const res = await fetch(`/api/employees/${emp.id}`, { method: "DELETE" });
+      if (res.ok) onChanged();
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   if (employees.length === 0) {
     return (
@@ -62,6 +76,14 @@ export default function Leaderboard({
                 className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-2 py-1.5 text-rose-400 transition hover:bg-rose-500/20"
               >
                 ▼
+              </button>
+              <button
+                onClick={() => handleDelete(emp)}
+                disabled={deletingId === emp.id}
+                title="Delete employee"
+                className="rounded-lg border border-white/10 bg-black/20 px-2 py-1.5 text-slate-400 transition hover:border-rose-500/30 hover:text-rose-400 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                🗑️
               </button>
             </div>
           </li>
