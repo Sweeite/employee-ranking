@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Employee } from "@/lib/types";
 import VoteDialog from "./VoteDialog";
+import EditEmployeeDialog from "./EditEmployeeDialog";
 
 const MEDALS = ["🥇", "🥈", "🥉"];
 
@@ -20,6 +21,7 @@ export default function Leaderboard({
   onChanged: () => void;
 }) {
   const [voteTarget, setVoteTarget] = useState<{ employee: Employee; delta: 1 | -1 } | null>(null);
+  const [editTarget, setEditTarget] = useState<Employee | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   async function handleDelete(emp: Employee) {
@@ -78,6 +80,13 @@ export default function Leaderboard({
                 ▼
               </button>
               <button
+                onClick={() => setEditTarget(emp)}
+                title="Edit name & emoji"
+                className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-slate-400 transition hover:border-fuchsia-200 hover:bg-fuchsia-50 hover:text-fuchsia-500"
+              >
+                ✏️
+              </button>
+              <button
                 onClick={() => handleDelete(emp)}
                 disabled={deletingId === emp.id}
                 title="Delete employee"
@@ -96,6 +105,14 @@ export default function Leaderboard({
           delta={voteTarget.delta}
           onClose={() => setVoteTarget(null)}
           onVoted={onChanged}
+        />
+      )}
+
+      {editTarget && (
+        <EditEmployeeDialog
+          employee={editTarget}
+          onClose={() => setEditTarget(null)}
+          onSaved={onChanged}
         />
       )}
     </>
