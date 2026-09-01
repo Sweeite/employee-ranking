@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/pg";
 import { ensureSchema, Employee } from "@/lib/db";
+import { getSessionUser } from "@/lib/auth";
 
 const EMOJIS = ["🦄", "🐸", "🦖", "🐙", "🦊", "🐢", "🦥", "🐝", "🦩", "🐳", "🦁", "🐧"];
 
@@ -10,12 +11,13 @@ export async function GET() {
   await ensureSchema();
   const { rows } = await sql<Employee>`
     SELECT
-      e.id, e.name, e.title, e.emoji, e.created_at,
+      e.id, e.name, e.title, e.emoji, e.created_at, e.creator_id, u.username AS creator_username,
       COALESCE(SUM(v.delta), 0)::int AS score,
       COUNT(v.id)::int AS vote_count
     FROM employees e
     LEFT JOIN votes v ON v.employee_id = e.id
-    GROUP BY e.id
+    LEFT JOIN users u ON u.id = e.creator_id
+    GROUP BY e.id, u.username
     ORDER BY score DESC, e.created_at ASC;
   `;
   return NextResponse.json(rows);
@@ -23,6 +25,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   await ensureSchema();
+  const user = await getSessionUser(req);
+  if (!user) {
+    return NextResponse.json({ error: "Log in to add someone to the board." }, { status: 401 });
+  }
+
   const body = await req.json().catch(() => ({}));
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const title = typeof body.title === "string" ? body.title.trim() : "";
@@ -41,10 +48,10 @@ export async function POST(req: NextRequest) {
   const finalTitle = title || "Employee of Questionable Merit";
 
   const { rows } = await sql`
-    INSERT INTO employees (name, title, emoji)
-    VALUES (${name}, ${finalTitle}, ${emoji})
-    RETURNING id, name, title, emoji, created_at, 0::int AS score, 0::int AS vote_count;
+    INSERT INTO employees (name, title, emoji, creator_id)
+    VALUES (${name}, ${finalTitle}, ${emoji}, ${user.id})
+    RETURNING id, name, title, emoji, created_at, creator_id, 0::int AS score, 0::int AS vote_count;
   `;
 
-  return NextResponse.json(rows[0], { status: 201 });
+  return NextResponse.json({ ...rows[0], creator_username: user.username }, { status: 201 });
 }

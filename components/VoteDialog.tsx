@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Employee } from "@/lib/types";
+import type { Employee, Milestone } from "@/lib/types";
 
 const UP_REACTIONS = ["👍", "🔥", "🚀", "👑"];
 const DOWN_REACTIONS = ["👎", "💩", "🐌", "🗑️"];
@@ -15,7 +15,7 @@ export default function VoteDialog({
   employee: Employee;
   delta: 1 | -1;
   onClose: () => void;
-  onVoted: () => void;
+  onVoted: (milestone: Milestone | null) => void;
 }) {
   const options = delta === 1 ? UP_REACTIONS : DOWN_REACTIONS;
   const [reaction, setReaction] = useState(options[0]);
@@ -38,7 +38,7 @@ export default function VoteDialog({
         setError(data.error || "Something went wrong.");
         return;
       }
-      onVoted();
+      onVoted(data.milestone ?? null);
       onClose();
     } catch {
       setError("Network error. Try again.");

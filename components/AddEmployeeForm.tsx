@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-export default function AddEmployeeForm({ onAdded }: { onAdded: () => void }) {
+export default function AddEmployeeForm({
+  loggedIn,
+  onAdded,
+}: {
+  loggedIn: boolean;
+  onAdded: () => void;
+}) {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -31,6 +37,14 @@ export default function AddEmployeeForm({ onAdded }: { onAdded: () => void }) {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  if (!loggedIn) {
+    return (
+      <div className="rounded-2xl border border-dashed border-slate-200 bg-white/60 p-4 text-center text-sm text-slate-400">
+        Log in above to add someone to the board.
+      </div>
+    );
   }
 
   return (
