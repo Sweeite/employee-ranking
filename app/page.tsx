@@ -29,10 +29,10 @@ export default function HomePage() {
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-10 sm:py-14">
       <header className="text-center">
-        <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
+        <h1 className="bg-gradient-to-r from-fuchsia-500 via-orange-400 to-amber-400 bg-clip-text text-4xl font-black tracking-tight text-transparent sm:text-5xl">
           🏆 Office Power Rankings
         </h1>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm font-medium text-slate-500">
           Totally unscientific. Completely unofficial. Rankings rise and fall on vibes alone.
         </p>
       </header>
@@ -41,21 +41,21 @@ export default function HomePage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_20rem]">
         <section>
-          <h2 className="mb-3 text-lg font-bold">Leaderboard</h2>
+          <h2 className="mb-3 text-lg font-bold text-slate-800">🏅 Leaderboard</h2>
           {loading ? (
-            <p className="text-sm text-slate-400">Loading rankings…</p>
+            <p className="text-sm text-slate-500">Loading rankings…</p>
           ) : (
             <Leaderboard employees={employees} onChanged={refresh} />
           )}
         </section>
 
         <section>
-          <h2 className="mb-3 text-lg font-bold">Activity Log</h2>
+          <h2 className="mb-3 text-lg font-bold text-slate-800">📣 Activity Log</h2>
           <ActivityLog entries={log} />
         </section>
       </div>
 
-      <footer className="pt-6 text-center text-xs text-slate-600">
+      <footer className="pt-6 text-center text-xs text-slate-400">
         Please don't actually use this to inform performance reviews.
       </footer>
     </main>

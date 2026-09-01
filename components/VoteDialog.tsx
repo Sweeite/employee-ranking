@@ -48,15 +48,15 @@ export default function VoteDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#161327] p-5 shadow-2xl"
+        className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-lg font-bold">
+        <h3 className="text-lg font-bold text-slate-800">
           {delta === 1 ? "Boost" : "Tank"} {employee.emoji} {employee.name}
         </h3>
-        <p className="mb-4 text-sm text-slate-400">Every ranking swing needs a reason. Make it count.</p>
+        <p className="mb-4 text-sm text-slate-500">Every ranking swing needs a reason. Make it count.</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="flex gap-2">
@@ -67,8 +67,8 @@ export default function VoteDialog({
                 onClick={() => setReaction(r)}
                 className={`flex-1 rounded-lg border py-2 text-xl transition ${
                   reaction === r
-                    ? "border-indigo-400 bg-indigo-500/20"
-                    : "border-white/10 bg-black/20 hover:border-white/30"
+                    ? "border-fuchsia-300 bg-fuchsia-50 ring-2 ring-fuchsia-100"
+                    : "border-slate-200 bg-slate-50 hover:border-slate-300"
                 }`}
               >
                 {r}
@@ -87,23 +87,23 @@ export default function VoteDialog({
             maxLength={200}
             required
             rows={3}
-            className="w-full resize-none rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm outline-none focus:border-indigo-400"
+            className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 outline-none focus:border-fuchsia-400 focus:bg-white focus:ring-2 focus:ring-fuchsia-100"
           />
 
-          {error && <p className="text-xs text-red-400">{error}</p>}
+          {error && <p className="text-xs font-medium text-rose-500">{error}</p>}
 
           <div className="flex justify-end gap-2 pt-1">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:text-white"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-800"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !reason.trim()}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50 ${
+              className={`rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-50 ${
                 delta === 1 ? "bg-emerald-500 hover:bg-emerald-400" : "bg-rose-500 hover:bg-rose-400"
               }`}
             >

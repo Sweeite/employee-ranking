@@ -36,10 +36,10 @@ export default function AddEmployeeForm({ onAdded }: { onAdded: () => void }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-4 sm:flex-row sm:items-end"
+      className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-200/60 sm:flex-row sm:items-end"
     >
       <div className="flex-1">
-        <label className="mb-1 block text-xs font-medium uppercase tracking-wide text-slate-400">
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
           Name
         </label>
         <input
@@ -48,11 +48,11 @@ export default function AddEmployeeForm({ onAdded }: { onAdded: () => void }) {
           placeholder="e.g. Steve from Accounting"
           maxLength={60}
           required
-          className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm outline-none focus:border-indigo-400"
+          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 outline-none focus:border-fuchsia-400 focus:bg-white focus:ring-2 focus:ring-fuchsia-100"
         />
       </div>
       <div className="flex-1">
-        <label className="mb-1 block text-xs font-medium uppercase tracking-wide text-slate-400">
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
           Fun title (optional)
         </label>
         <input
@@ -60,17 +60,17 @@ export default function AddEmployeeForm({ onAdded }: { onAdded: () => void }) {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Chief Vibes Officer"
           maxLength={80}
-          className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm outline-none focus:border-indigo-400"
+          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 outline-none focus:border-fuchsia-400 focus:bg-white focus:ring-2 focus:ring-fuchsia-100"
         />
       </div>
       <button
         type="submit"
         disabled={submitting || !name.trim()}
-        className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg bg-gradient-to-r from-fuchsia-500 to-orange-400 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitting ? "Adding…" : "+ Add Employee"}
       </button>
-      {error && <p className="text-xs text-red-400 sm:ml-2">{error}</p>}
+      {error && <p className="text-xs font-medium text-rose-500 sm:ml-2">{error}</p>}
     </form>
   );
 }

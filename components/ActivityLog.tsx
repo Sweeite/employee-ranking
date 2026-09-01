@@ -15,7 +15,7 @@ function timeAgo(iso: string) {
 export default function ActivityLog({ entries }: { entries: VoteLogEntry[] }) {
   if (entries.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-slate-400">
+      <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-white/60 p-6 text-center text-sm text-slate-400">
         No drama logged yet.
       </div>
     );
@@ -26,22 +26,22 @@ export default function ActivityLog({ entries }: { entries: VoteLogEntry[] }) {
       {entries.map((entry) => (
         <li
           key={entry.id}
-          className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm"
+          className="rounded-xl border border-slate-200 bg-white p-3 text-sm shadow-sm shadow-slate-200/60"
         >
           <div className="flex items-center justify-between gap-2">
-            <span className="font-medium">
+            <span className="font-medium text-slate-800">
               {entry.reaction} {entry.employee_emoji} {entry.employee_name}
             </span>
             <span
               className={`shrink-0 text-xs font-bold ${
-                entry.delta > 0 ? "text-emerald-400" : "text-rose-400"
+                entry.delta > 0 ? "text-emerald-500" : "text-rose-500"
               }`}
             >
               {entry.delta > 0 ? `+${entry.delta}` : entry.delta}
             </span>
           </div>
-          <p className="mt-1 text-slate-300">"{entry.reason}"</p>
-          <p className="mt-1 text-xs text-slate-500">{timeAgo(entry.created_at)}</p>
+          <p className="mt-1 text-slate-600">"{entry.reason}"</p>
+          <p className="mt-1 text-xs text-slate-400">{timeAgo(entry.created_at)}</p>
         </li>
       ))}
     </ul>

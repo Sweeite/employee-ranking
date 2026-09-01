@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  background: radial-gradient(circle at top, #1e1b4b, #0b0a1a 60%);
+  background: linear-gradient(180deg, #fff7ed 0%, #fef3f9 45%, #eff6ff 100%);
   min-height: 100vh;
 }
